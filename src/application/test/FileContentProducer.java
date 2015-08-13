@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 public class FileContentProducer {
-	File file = new File("C:/LogFile.txt");
+	File file = new File("D:/LogFile.txt");
 
 	public static void main(String[] args) {
 		new FileContentProducer().startFileContentProduce();

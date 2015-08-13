@@ -1,30 +1,37 @@
 package application;
 
-
-
 import java.io.File;
+import java.util.EventListener;
 
+import javax.swing.text.Document;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.web.HTMLEditor;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 public class LogFileContainer {
-	public ScrollPane getContainer(){
-		//BorderPane pane=new BorderPane();
-		
-		//textArea.setEditable(false);
-		LogFileReader logFileReader=new LogFileReader();
-		ScrollPane scrollPane=new ScrollPane();
-		scrollPane.setFitToHeight(true);
-		scrollPane.setFitToWidth(true);
-		scrollPane.setContent(Main.textArea);
-		//Main.textArea.setEditable(false);
-		
-		
-		//pane.setCenter(scrollPane);'
-		File file = new File("C:/LogFile.txt");
-		logFileReader.readFileContent(Main.textArea,file);
-		logFileReader.startRead();
-		return scrollPane;
-	}
+	public BorderPane getContainer() {
+		BorderPane pane = new BorderPane();
 
+		// textArea.setEditable(false);
+		RemoteLogFileReader logFileReader = new RemoteLogFileReader();
+		
+		Main.scrollPane.setFitToHeight(true);
+		Main.scrollPane.setFitToWidth(true);
+		Main.scrollPane.setContent(Main.textArea);
+		
+
+		pane.setCenter(Main.scrollPane);
+		//File file = new File("D:/LogFile.txt");
+		logFileReader.readFileContent();
+		logFileReader.startRead(logFileReader);
+		return pane;
+	}
+	
 }

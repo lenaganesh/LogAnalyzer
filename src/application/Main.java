@@ -1,9 +1,5 @@
 package application;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.io.input.TailerListenerAdapter;
 
 import javafx.application.Application;
@@ -11,7 +7,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
@@ -19,7 +15,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	public static HTMLEditor textArea = new HTMLEditor();
-	public long lineNuber;
+	public static ScrollPane scrollPane = new ScrollPane();
+	public static long lineNuber;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -70,8 +67,8 @@ public static void hideHTMLEditorToolbars2(final HTMLEditor editor)
 	    });
 }
 
-
-	public void updateString(String line) {
+	double height=500;
+	public static void updateString(String line) {
 		
 		try {
 			WebView webView = (WebView) textArea.lookup("WebView");
@@ -82,7 +79,9 @@ public static void hideHTMLEditorToolbars2(final HTMLEditor editor)
 					String pattern ="%08d : %s";
 					String t=String.format(pattern, (++lineNuber),line);
 					System.out.println(t);
-					webView.getEngine().executeScript("document.write('" +t + "<br>');");
+					webView.getEngine().executeScript("document.write('" +t.trim() + "<br>');");
+					System.out.println(webView.getMaxHeight());
+					;
 				};
 
 			});
