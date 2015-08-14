@@ -1,7 +1,5 @@
 package application;
 
-import java.io.File;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,7 +35,7 @@ public class RemoteLogFileReader implements Observer{
 		if(lines != null){
 			for (int i = 0; i < lines.length; i++) {
 				String string = lines[i];
-				Main.updateString(string);
+				//Main.updateString(string);
 			}
 		}
 		//System.out.println(lines.length);

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 public class FileContentProducer {
-	File file = new File("D:/LogFile.txt");
+	File file = new File("C:/LogFile.txt");
 
 	public static void main(String[] args) {
 		new FileContentProducer().startFileContentProduce();
@@ -30,7 +30,7 @@ public class FileContentProducer {
 						bufferWritter.flush();
 						
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(5000);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
