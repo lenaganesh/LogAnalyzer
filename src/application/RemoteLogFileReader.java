@@ -6,23 +6,25 @@ import java.util.Observer;
 import org.apache.commons.io.input.Tailer;
 
 import application.test.SSHCommandExecutor;
-import javafx.scene.web.HTMLEditor;
 
 public class RemoteLogFileReader implements Observer{
 	Tailer tailer;
-	HTMLEditor textArea;
-	public void readFileContent(){
-		
-		
+	
+	ConnectInfo connectInfo;
+	ILogContentUpdate logFileContainer;
+	public RemoteLogFileReader(ConnectInfo connectInfo, ILogContentUpdate logFileContainer) {
+		this.connectInfo=connectInfo;
+		this.logFileContainer=logFileContainer;
 	}
-	public void startRead(RemoteLogFileReader remoteLogFileReader){
+	
+	public void startRead(final RemoteLogFileReader remoteLogFileReader){
 		Thread t=new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				SSHCommandExecutor sshCommandExecutor=new SSHCommandExecutor();
+				SSHCommandExecutor sshCommandExecutor=new SSHCommandExecutor(connectInfo);
 				sshCommandExecutor.addObserver(remoteLogFileReader);
-				sshCommandExecutor.connect();
+				sshCommandExecutor.connectRemmote();
 			}
 		});
 		t.start();
@@ -36,6 +38,7 @@ public class RemoteLogFileReader implements Observer{
 			for (int i = 0; i < lines.length; i++) {
 				String string = lines[i];
 				//Main.updateString(string);
+				logFileContainer.updateString(string);
 			}
 		}
 		//System.out.println(lines.length);

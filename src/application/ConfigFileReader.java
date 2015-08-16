@@ -60,7 +60,7 @@ public class ConfigFileReader {
 			connectInfo.setTitle(prop.getProperty("title"));
 			connectInfo.setUserName(prop.getProperty("host"));
 			connectInfo.setPassword(prop.getProperty("username"));
-			connectInfo.setCommand(prop.getProperty("password"));
+			connectInfo.setFilePath(prop.getProperty("password"));
 			connectInfo.setHost(prop.getProperty("command"));
 			return connectInfo;
 

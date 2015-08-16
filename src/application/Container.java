@@ -18,8 +18,7 @@ public class Container {
 		
 		
 		sp.getItems().addAll( borderPane,sp1);
-		sp.setStyle("-fx-background-color: #0099CC");
-		borderPane.setStyle("-fx-background-color: #0099CC");
+		
 		//sp2.setBackground(new Background(new BackgroundFill(Color.web("#0099CC"), CornerRadii.EMPTY, Insets.EMPTY)));
 		//sp.setDividerPositions(0.3f, 0.6f, 0.9f);
 		return sp;

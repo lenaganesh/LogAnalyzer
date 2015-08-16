@@ -1,13 +1,15 @@
 package application;
 
-public class ConnectInfo {
+import java.io.Serializable;
+
+public class ConnectInfo implements Serializable{
 	private String environment;
 	private String title;
 	private String userName;
 	private String password;
-	private String command;
+	private String filePath;
 	private String host;
-	
+	private String port="22";
 	public String getHost() {
 		return host;
 	}
@@ -40,12 +42,12 @@ public class ConnectInfo {
 		this.password = password;
 	}
 
-	public String getCommand() {
-		return command;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setCommand(String command) {
-		this.command = command;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getEnvironment() {
@@ -54,6 +56,14 @@ public class ConnectInfo {
 
 	public void setEnvironment(String environment) {
 		this.environment = environment;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 }

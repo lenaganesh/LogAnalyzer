@@ -7,18 +7,51 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+
+import application.ConnectInfo;
  
  
 public class SSHCommandExecutor extends Observable{
 	 Session session;
 	 Channel channel;
-    /**
+	 private ConnectInfo connectInfo;
+    public SSHCommandExecutor(ConnectInfo connectInfo) {
+		this.connectInfo =connectInfo;
+	}
+	public SSHCommandExecutor() {
+		// TODO Auto-generated constructor stub
+	}
+	/**
      * @param args
      */
     public static void main(String[] args) {
-        new SSHCommandExecutor().connect();
+        new SSHCommandExecutor().testConnect();
     }
-    public void connect(){
+    public void connectRemmote(){
+    	
+        try{
+             
+            java.util.Properties config = new java.util.Properties(); 
+            config.put("StrictHostKeyChecking", "no");
+            JSch jsch = new JSch();
+            session=jsch.getSession(connectInfo.getUserName(), connectInfo.getHost(), Integer.parseInt(connectInfo.getPort()));
+            session.setPassword(connectInfo.getPassword());
+            session.setConfig(config);
+            session.connect();
+            System.out.println("Connected");
+             
+            channel =session.openChannel("exec");
+     
+            executeCommand("tail -f "+connectInfo.getFilePath());
+            channel.disconnect();
+            session.disconnect();
+            System.out.println("DONE");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+ 
+    }
+    public void testConnect(){
     	String host="192.168.1.5";
         String user="ganesh";
         String password="password";

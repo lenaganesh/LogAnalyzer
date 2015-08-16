@@ -13,7 +13,7 @@ public class TabCreator {
 		WebEngineCreator.create(connectInfoList.size());
 		for (ConnectInfo connectInfo : connectInfoList) {
 			Tab tabA = new Tab();
-			tabA.setText(connectInfo.getCommand());
+			tabA.setText(connectInfo.getFilePath());
 			Container container=new Container();;
 			tabA.setContent(container.initializeGroup(connectInfo));
 			Main.tabPane.getTabs().add(tabA);
@@ -22,5 +22,19 @@ public class TabCreator {
 		
 		
 		return mainPane;
+	}
+	public Pane getContainer() {
+		BorderPane mainPane = new BorderPane();
+		mainPane.setCenter(Main.tabPane);
+		return mainPane;
+	}
+	public void createTab(ConnectInfo connectInfo) {
+		
+		WebEngineCreator.create(1);
+		Tab tabA = new Tab();
+		tabA.setText(connectInfo.getFilePath());
+		Container container=new Container();;
+		tabA.setContent(container.initializeGroup(connectInfo));
+		Main.tabPane.getTabs().add(tabA);
 	}
 }
