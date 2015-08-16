@@ -11,10 +11,9 @@ public class TextSeachContainer {
 	public Node getContainer(WebEngine webEngine) {
 		final Accordion accordion = new Accordion();
 		TitledPane t1 = new TitledPane("Search", new SearchContainer(webEngine).getContainer());
-	    TitledPane t2 = new TitledPane("Monitor Text", new Button("B2"));
-	    TitledPane t3 = new TitledPane("T3", new Button("B3"));
-		
-	    accordion.getPanes().addAll(t1, t2, t3);
+	    TitledPane t2 = new TitledPane("Monitor Text", new WatchContainer(webEngine).getContainer());
+	    
+	    accordion.getPanes().addAll(t1, t2);
 		accordion.setExpandedPane(t1);
 		return accordion;
 	}
