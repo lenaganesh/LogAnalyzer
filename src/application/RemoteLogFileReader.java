@@ -22,6 +22,7 @@ public class RemoteLogFileReader implements Observer{
 			
 			@Override
 			public void run() {
+				System.out.println("Connecting Observer..");
 				SSHCommandExecutor sshCommandExecutor=new SSHCommandExecutor(connectInfo);
 				sshCommandExecutor.addObserver(remoteLogFileReader);
 				sshCommandExecutor.connectRemmote();
@@ -31,7 +32,7 @@ public class RemoteLogFileReader implements Observer{
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Receiver:"+arg+":");
+		
 		String temp=((String)arg);
 		String[] lines=temp.split("\n");
 		if(lines != null){
@@ -41,8 +42,7 @@ public class RemoteLogFileReader implements Observer{
 				logFileContainer.updateString(string);
 			}
 		}
-		//System.out.println(lines.length);
-		
+
 	}
 	
 }

@@ -13,6 +13,7 @@ import javafx.concurrent.Worker.State;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -31,21 +32,19 @@ public class LogFileContainer implements ILogContentUpdate {
 		webViewIndex++;
 	}
 
-	public BorderPane getContainer(ConnectInfo connectInfo) {
+	public Pane getContainer(ConnectInfo connectInfo) {
+		Pane pane = initializeLogViewer();
 		if (connectInfo.getEnvironment().equalsIgnoreCase("LOCAL")) {
-			return localLogContainer(connectInfo);
+			 localLogContainer(connectInfo);
 		} else {
-			return remoteLogContainer(connectInfo);
+			 remoteLogContainer(connectInfo);
 		}
-
+		return pane;
 	}
-
-	private BorderPane localLogContainer(ConnectInfo connectInfo) {
-
+	private Pane initializeLogViewer(){
 		BorderPane pane = new BorderPane();
-		LogFileReader logFileReader = new LogFileReader(this);
-		System.out.println(connectInfo);
-		System.out.println(logFileReader);
+		
+		
 		System.out.println(this);
 		pane.setCenter(textArea);
 		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
@@ -65,20 +64,20 @@ public class LogFileContainer implements ILogContentUpdate {
 																						// File("LogContent.html").toURI().toString();
 		System.out.println("Loading HTML:" + temp);
 		webEngine.load(temp);
+		return pane;
+	}
+	private void localLogContainer(ConnectInfo connectInfo) {
 
+		LogFileReader logFileReader = new LogFileReader(this);
 		// webEngine.loadContent("<html><body>Loading</body></html>");
 		logFileReader.readFileContent(new File(connectInfo.getFilePath()));
 		logFileReader.startTailer();
-		return pane;
+		
 	}
 
-	private BorderPane remoteLogContainer(ConnectInfo connectInfo) {
-		BorderPane pane = new BorderPane();
+	private void remoteLogContainer(ConnectInfo connectInfo) {
 		RemoteLogFileReader logFileReader = new RemoteLogFileReader(connectInfo, this);
-
-		pane.setCenter(textArea);
 		logFileReader.startRead(logFileReader);
-		return pane;
 	}
 
 	public ScrollPane fileReadMode() {
@@ -102,7 +101,7 @@ public class LogFileContainer implements ILogContentUpdate {
 	public void updateString(final String line) {
 
 		try {
-			System.out.println("Updating...");
+		
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {

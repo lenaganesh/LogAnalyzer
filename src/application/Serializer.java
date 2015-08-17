@@ -10,7 +10,7 @@ public class Serializer {
 
 	
 
-	public void storeConnectionList(List<ConnectInfo> connectInfoList) {
+	public void storeConnectionList(List<ConnectInfo> connectInfoList) throws Exception {
 		try {
 			FileOutputStream fout = new FileOutputStream("Session");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
@@ -20,6 +20,7 @@ public class Serializer {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			throw new Exception(ex);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class Serializer {
 			return list;
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			return null;
 		}
 	}

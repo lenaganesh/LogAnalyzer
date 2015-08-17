@@ -52,9 +52,9 @@ public class SSHCommandExecutor extends Observable{
  
     }
     public void testConnect(){
-    	String host="192.168.1.5";
+    	String host="192.168.1.4";
         String user="ganesh";
-        String password="password";
+        String password="123456";
         String command1="cd /tmp";
         try{
              
@@ -70,7 +70,7 @@ public class SSHCommandExecutor extends Observable{
             channel =session.openChannel("exec");
            // executeCommand("ls -l");
             //executeCommand(command1);
-            executeCommand("tail -f /tmp/sample.log");
+            executeCommand("tail -f /tmp/sample.txt");
             channel.disconnect();
             session.disconnect();
             System.out.println("DONE");

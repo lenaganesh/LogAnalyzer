@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -40,13 +42,14 @@ public class FileOpenContainer {
 	TextField localSessionNameText = new TextField();
 	ObservableList<ConnectInfo> myObservableList;
 	BorderPane pane;
+	BorderPane outerPane=new BorderPane();
 	Pane remoteContainer, localContainer;
 	RadioButton localButton = new RadioButton("Local");
 	RadioButton remoteButton = new RadioButton("Remote");
 	final ToggleGroup group = new ToggleGroup();
 	Stage primaryStage;
 	ListView<ConnectInfo> listView;
-
+	Label saveSatus=new Label("");
 	public Pane getContainer(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 
@@ -111,16 +114,22 @@ public class FileOpenContainer {
 	}
 
 	private Pane getRightPane() {
+		
 		remoteContainer = getRightRemotePane();
 		localContainer = getRightLocalPane();
 
 		System.out.println("SSS:" + group.getSelectedToggle().getUserData());
 		if (((String) group.getSelectedToggle().getUserData()).equalsIgnoreCase("LOCAL")) {
-			pane.setCenter(localContainer);
+			outerPane.setCenter(localContainer);
 		} else {
-			pane.setCenter(remoteContainer);
+			outerPane.setCenter(remoteContainer);
 		}
-
+		
+		FlowPane flowPane = new FlowPane();
+		flowPane.setAlignment(Pos.CENTER);
+		flowPane.getChildren().add(saveSatus);
+		outerPane.setBottom(flowPane);
+		pane.setCenter(outerPane);
 		return pane;
 	}
 
@@ -145,10 +154,10 @@ public class FileOpenContainer {
 					resetFields();
 					if (((String) group.getSelectedToggle().getUserData()).equalsIgnoreCase("LOCAL")) {
 
-						pane.setCenter(localContainer);
+						outerPane.setCenter(localContainer);
 					} else {
 
-						pane.setCenter(remoteContainer);
+						outerPane.setCenter(remoteContainer);
 					}
 				}
 			}
@@ -296,7 +305,18 @@ public class FileOpenContainer {
 			saveRemoteConnectionInfo();
 		}
 		System.out.println(ConnectInfoList.size());
-		new Serializer().storeConnectionList(ConnectInfoList);
+		saveSatus.setFont(new Font("Arial", 15));
+		
+		try {
+			new Serializer().storeConnectionList(ConnectInfoList);
+			saveSatus.setText("Saved");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			saveSatus.setText("Failed");
+		}
+		
+		
 	}
 
 	private void saveRemoteConnectionInfo() {
@@ -345,10 +365,10 @@ public class FileOpenContainer {
 			if (newValue.getEnvironment().equalsIgnoreCase("LOCAL")) {
 
 				localButton.setSelected(true);
-				pane.setCenter(localContainer);
+				outerPane.setCenter(localContainer);
 			} else {
 				remoteButton.setSelected(true);
-				pane.setCenter(remoteContainer);
+				outerPane.setCenter(remoteContainer);
 			}
 			localSessionNameText.setText(newValue.getTitle());
 			sessionNameText.setText(newValue.getTitle());
